@@ -1,4 +1,4 @@
-
+let secretNumber = generateSecretNumber();
 function displayText(tag, text){
     let field = document.querySelector(tag);
     field.innerHTML = text;
@@ -10,6 +10,10 @@ displayText('p', 'Escolha um número entre 1 e 10');
 
 function checkAttempt(){
     console.log('O botão foi clicado');
+}
+
+function generateSecretNumber(){
+    return parseInt(Math.random() * 10 + 1);
 }
 
 
