@@ -1,28 +1,36 @@
 let secretNumber = generateSecretNumber();
-console.log(secretNumber);
-let attemps = 1;
+attemps = 1;
+
 function displayText(tag, text){
     let field = document.querySelector(tag);
     field.innerHTML = text;
 }
 
 
-displayText('h1', 'JOGO DO NUMERO SECRETO');
-displayText('p', 'Escolha um número entre 1 e 10');
+function initialMessage() {
+    displayText('h1', 'JOGO DO NUMERO SECRETO');
+    displayText('p', 'Escolha um número entre 1 e 10');
+}
+
+initialMessage();
 
 function checkAttempt(){
-    if(attemps == secretNumber){
+    let guess = document.querySelector('input').value;
+    if(guess == secretNumber){
         displayText('h1', `YEAH! Você acertou!`);
-        let attempPluralWord= attemps > 1 ? 'tentativas' : 'tentativa';
-        let message = ` E você usou ${attemps} ${attempPluralWord}`;
+        let guessPluralWord= guess > 1 ? 'tentativas' : 'tentativa';
+        let message = ` E você usou ${guess} ${guessPluralWord}`;
         displayText('p', `O número Secreto é ${secretNumber}! ${message}`  );
+
+        document.getElementById('reiniciar').removeAttribute('disabled');
     }else{
-        if(attemps > secretNumber){
+        if(guess > secretNumber){
             displayText('p', 'o numero secreto é menor');
         }else{
-            displayText('p', 'o numero secreto é menor');
+            displayText('p', 'o numero secreto é maior');
         }
-        attemps ++;
+        attemps++;
+        clearField();
     }
 }
 
@@ -30,7 +38,18 @@ function generateSecretNumber(){
     return parseInt(Math.random() * 10 + 1);
 }
 
+function clearField() {
+    guess = document.querySelector('input');
+    guess.value = '';
+}
 
+function restartGame() {
+    secretNumber = generateSecretNumber();
+    guess.value = '';
+    attemps = 1;
+    initialMessage();
+    document.getElementById('reiniciar').setAttribute('disabled', true);
+}
 
 
 
