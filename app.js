@@ -1,9 +1,12 @@
+let drawnNumbers = [];
+let maxCapacity = 10;
 let secretNumber = generateSecretNumber();
 attemps = 1;
 
 function displayText(tag, text){
     let field = document.querySelector(tag);
     field.innerHTML = text;
+    responsiveVoice.speak(text, 'Brazilian Portuguese Female', {rate: 1.2});
 }
 
 
@@ -19,7 +22,7 @@ function checkAttempt(){
     if(guess == secretNumber){
         displayText('h1', `YEAH! Você acertou!`);
         let guessPluralWord= guess > 1 ? 'tentativas' : 'tentativa';
-        let message = ` E você usou ${guess} ${guessPluralWord}`;
+        let message = ` E você usou ${attemps} ${guessPluralWord}`;
         displayText('p', `O número Secreto é ${secretNumber}! ${message}`  );
 
         document.getElementById('reiniciar').removeAttribute('disabled');
@@ -35,7 +38,18 @@ function checkAttempt(){
 }
 
 function generateSecretNumber(){
-    return parseInt(Math.random() * 10 + 1);
+    let generatedNumber = parseInt(Math.random() * maxCapacity + 1);
+    let numberOfElementsOnList = drawnNumbers.length;
+    if(numberOfElementsOnList == maxCapacity){
+        drawnNumbers = [];
+    }
+    if(drawnNumbers.includes(generatedNumber)){
+        return generateSecretNumber();
+    }else{
+        drawnNumbers.push(generatedNumber);
+        console.log(drawnNumbers);
+        return generatedNumber;
+    }
 }
 
 function clearField() {
